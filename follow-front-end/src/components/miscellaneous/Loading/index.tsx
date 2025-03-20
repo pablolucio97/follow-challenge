@@ -11,7 +11,6 @@ export function Loading({ color, text, hideText }: LoadingProps) {
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
-    borderColor: "red",
   };
   return (
     <div className="w-full flex flex-col items-center justify-center">
