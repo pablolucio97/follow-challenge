@@ -7,7 +7,7 @@ interface LoadingProps {
   hideText?: boolean;
 }
 
-export function Loading({ color, text, hideText }: LoadingProps) {
+const Loading: React.FC<LoadingProps> = ({ color, text, hideText }) => {
   const override: CSSProperties = {
     display: "block",
     margin: "0 auto",
@@ -29,4 +29,6 @@ export function Loading({ color, text, hideText }: LoadingProps) {
       )}
     </div>
   );
-}
+};
+
+export default Loading;
