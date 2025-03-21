@@ -1,10 +1,10 @@
-import SignIn from "@/screens/auth/SignIn";
+import SignUp from "@/screens/auth/SingnUp";
 import "./styles/index.css";
 
 function App() {
   return (
     <main className="w-full h-full">
-      <SignIn />
+      <SignUp />
     </main>
   );
 }
