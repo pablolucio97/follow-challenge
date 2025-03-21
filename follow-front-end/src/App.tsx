@@ -1,10 +1,10 @@
-import NewSearch from "./screens/app/NewSearch";
+import Router from "./routes";
 import "./styles/index.css";
 
 function App() {
   return (
     <main className="w-full h-full">
-      <NewSearch />
+      <Router />
     </main>
   );
 }
