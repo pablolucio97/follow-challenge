@@ -1,10 +1,10 @@
-import SignUp from "@/screens/auth/SingnUp";
+import NewSearch from "./screens/app/NewSearch";
 import "./styles/index.css";
 
 function App() {
   return (
     <main className="w-full h-full">
-      <SignUp />
+      <NewSearch />
     </main>
   );
 }
