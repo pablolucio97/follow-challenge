@@ -1,25 +1,31 @@
 import SearchCepInput from "@/components/inputs/SearchCepInput";
 import FooterLink from "@/components/miscellaneous/FooterLink";
+import GreetUser from "@/components/miscellaneous/GreetUser";
 import Header from "@/components/miscellaneous/Header";
 import NoData from "@/components/miscellaneous/NoData";
 import Title from "@/components/typography/Title";
 import { ISearch } from "dtos/Search";
+import useAuth from "hooks/useAuth";
 import { searchMock } from "mock";
 import { useState } from "react";
 import SearchResultCard from "./components/SearchResultCard";
 
 const NewSearch: React.FC = () => {
   const [search] = useState<ISearch | null>(searchMock);
+  const { user } = useAuth();
 
   return (
     <div className="w-full min-h-screen flex flex-col relative">
       <Header />
-      <div className="w-full md:max-w-[480px] flex flex-col items-center mx-auto p-8">
+      <div className="w-[90%] md:max-w-[900px] flex flex-col items-center mx-auto p-8">
+        <GreetUser userName={user!.name} />
         <Title
           content="Informe um CEP para começar"
-          className="mx-auto mt-12 mb-4"
+          className="mx-auto mt-16 mb-6"
         />
-        <SearchCepInput />
+        <div className="w-full md:max-w-[400px]">
+          <SearchCepInput />
+        </div>
         <div className="mt-8">
           {search ? (
             <div className="flex flex-col">

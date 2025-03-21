@@ -11,7 +11,7 @@ const SearchCepInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <div className={`mb-2 w-full ${containerClassName}`}>
-      <span className="text-gray-800 text-sm">CEP</span>
+      <span className="text-gray-800 text-sm">Informe o CEP</span>
       <div className="w-full flex items-center">
         <InputMask
           mask="__.___-___"
