@@ -1,11 +1,11 @@
 import { IUser } from "dtos/User";
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext } from "react";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+  authenticateUser: (user: IUser) => void;
+  signOutUser: () => void;
   user: IUser | null;
-  setUser: Dispatch<SetStateAction<IUser | null>>;
 }
 
 export const AuthContext = createContext({} as AuthContextProps);

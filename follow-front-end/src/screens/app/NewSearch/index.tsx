@@ -4,12 +4,12 @@ import Header from "@/components/miscellaneous/Header";
 import NoData from "@/components/miscellaneous/NoData";
 import Title from "@/components/typography/Title";
 import { ISearch } from "dtos/Search";
-import { SearchMock } from "mock";
+import { searchMock } from "mock";
 import { useState } from "react";
 import SearchResultCard from "./components/SearchResultCard";
 
 const NewSearch: React.FC = () => {
-  const [search] = useState<ISearch | null>(SearchMock);
+  const [search] = useState<ISearch | null>(searchMock);
 
   return (
     <div className="w-full min-h-screen flex flex-col relative">

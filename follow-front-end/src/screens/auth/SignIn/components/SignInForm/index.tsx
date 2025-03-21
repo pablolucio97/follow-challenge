@@ -1,5 +1,6 @@
 import Button from "@/components/buttons/Button";
 import { TextInput } from "@/components/inputs/TextInput";
+import { Link } from "react-router-dom";
 
 interface SignInFormProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -17,9 +18,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSubmit }) => {
       <div className="mt-2 flex justify-center">
         <span className="text-gray-800 text-xs md:text-sm">
           Não tem uma conta?{" "}
-          <a className="text-xs md:text-sm" href="/sign-up">
+          <Link to="/register" className="text-xs md:text-sm text-blue-600">
             Criar minha conta
-          </a>
+          </Link>
         </span>
       </div>
     </form>

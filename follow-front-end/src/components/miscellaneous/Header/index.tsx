@@ -1,4 +1,6 @@
 import logo from "@/assets/logo.svg";
+import useAuth from "hooks/useAuth";
+import { LuLogOut } from "react-icons/lu";
 import { Link, useLocation } from "react-router-dom";
 
 type ILink = {
@@ -21,6 +23,7 @@ const Header: React.FC = () => {
   const baseUrl = "http://localhost:5173";
 
   const { pathname } = useLocation();
+  const { signOutUser } = useAuth();
 
   return (
     <header className="w-full flex items-center p-4 bg-white shadow-sm">
@@ -39,7 +42,7 @@ const Header: React.FC = () => {
             <li key={screen.screenName}>
               <Link
                 to={`${baseUrl}${screen.path}`}
-                className={`ml-4 text-gray-800 text-sm md:text-base ${
+                className={`ml-3 text-gray-800 text-sm md:text-base ${
                   screen.path === pathname ? "font-bold" : ""
                 }`}
               >
@@ -47,6 +50,13 @@ const Header: React.FC = () => {
               </Link>
             </li>
           ))}
+          <button
+            className="flex items-center text-gray-800 text-xs md:text-sm ml-6 border-1 border-red-300 p-2 rounded-md"
+            onClick={signOutUser}
+          >
+            Sair
+            <LuLogOut className="w-5 h-5 md:w-6 md:h-6 text-red-300 ml-2" />
+          </button>
         </ul>
       </div>
     </header>

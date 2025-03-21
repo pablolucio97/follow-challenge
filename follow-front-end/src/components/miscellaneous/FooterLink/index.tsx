@@ -11,7 +11,7 @@ const FooterLink: React.FC<FooterLinkProps> = ({ className }) => {
       <a
         href="https://www.pablosilvadev.com.br"
         target="_blank"
-        className="ml-1 text-xs md:text-sm"
+        className="ml-1 text-xs md:text-sm text-blue-600"
       >
          site.
       </a>

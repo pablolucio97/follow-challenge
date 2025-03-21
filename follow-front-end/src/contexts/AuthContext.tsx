@@ -10,9 +10,19 @@ const AuthContextProvider = ({ children }: AuthProviderContextProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
 
+  const authenticateUser = (user: IUser) => {
+    setIsAuthenticated(true);
+    setUser(user);
+  };
+
+  const signOutUser = () => {
+    setIsAuthenticated(false);
+    setUser(null);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, setIsAuthenticated, user, setUser }}
+      value={{ isAuthenticated, user, authenticateUser, signOutUser }}
     >
       {children}
     </AuthContext.Provider>
