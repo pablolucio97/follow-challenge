@@ -1,7 +1,8 @@
-import { ISearch } from "dtos/Search";
+import { formatDate } from "@/utils/formats";
+import { ISearchDTO } from "dtos/Search";
 
 interface SearchResultCardProps {
-  result: ISearch;
+  result: ISearchDTO;
 }
 
 const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
@@ -14,7 +15,7 @@ const SearchResultCard: React.FC<SearchResultCardProps> = ({ result }) => {
         {result.city} - {result.uf}
       </span>
       <span className="text-xs md:text-sm mt-4">
-        Hora da pesquisa: {result.created_at.toDateString()}
+        Hora da pesquisa: {formatDate(result.created_at)}
       </span>
     </div>
   );

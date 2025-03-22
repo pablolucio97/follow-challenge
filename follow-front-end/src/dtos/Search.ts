@@ -1,4 +1,4 @@
-export interface ISearch {
+export interface ISearchDTO {
     id: string;
     user_id: string;
     cep: string;
@@ -6,5 +6,5 @@ export interface ISearch {
     district: string;
     uf: string;
     address: string;
-    created_at: Date;
+    created_at: string;
 }

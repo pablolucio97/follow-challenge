@@ -4,20 +4,20 @@ import GreetUser from "@/components/miscellaneous/GreetUser";
 import Header from "@/components/miscellaneous/Header";
 import NoData from "@/components/miscellaneous/NoData";
 import Title from "@/components/typography/Title";
-import { ISearch } from "dtos/Search";
+import { ISearchDTO } from "dtos/Search";
 import useAuth from "hooks/useAuth";
 import { searchMock } from "mock";
 import { useState } from "react";
 import SearchResultCard from "./components/SearchResultCard";
 
 const NewSearch: React.FC = () => {
-  const [search] = useState<ISearch | null>(searchMock);
+  const [search] = useState<ISearchDTO | null>(searchMock);
   const { user } = useAuth();
 
   return (
     <div className="w-full min-h-screen flex flex-col relative">
       <Header />
-      <div className="w-[90%] md:max-w-[900px] flex flex-col items-center mx-auto p-8">
+      <div className="w-[90%] md:max-w-[1080px] flex flex-col items-center mx-auto px-8 md:px-4 mt-12">
         <GreetUser userName={user!.name} />
         <Title
           content="Informe um CEP para começar"

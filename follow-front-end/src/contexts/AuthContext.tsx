@@ -1,4 +1,4 @@
-import { IUser } from "dtos/User";
+import { IUserDTO } from "dtos/User";
 import { ReactNode, useState } from "react";
 import { AuthContext } from "./AuthContextDefinition";
 
@@ -8,9 +8,9 @@ interface AuthProviderContextProps {
 
 const AuthContextProvider = ({ children }: AuthProviderContextProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUserDTO | null>(null);
 
-  const authenticateUser = (user: IUser) => {
+  const authenticateUser = (user: IUserDTO) => {
     setIsAuthenticated(true);
     setUser(user);
   };

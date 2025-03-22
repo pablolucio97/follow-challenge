@@ -28,7 +28,7 @@ const Header: React.FC = () => {
   return (
     <header className="w-full flex items-center p-4 bg-white shadow-sm">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full md:max-w-[1080px] mx-auto">
-        <div className="w-full flex justify-center mb-2 items-center">
+        <div className="w-full flex justify-center md:justify-start mb-2 items-center">
           <img
             src={logo}
             alt="Logo"

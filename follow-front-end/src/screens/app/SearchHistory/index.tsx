@@ -1,32 +1,36 @@
-import SearchCepInput from "@/components/inputs/SearchCepInput";
 import FooterLink from "@/components/miscellaneous/FooterLink";
 import Header from "@/components/miscellaneous/Header";
 import NoData from "@/components/miscellaneous/NoData";
 import Title from "@/components/typography/Title";
-import { ISearch } from "dtos/Search";
-import { searchMock } from "mock";
+import { ISearchDTO } from "dtos/Search";
+import { searchHistoryMock } from "mock";
 import { useState } from "react";
-import SearchResultCard from "./components/SearchResultCard";
+import HistoryTable from "./components/HistoryTable";
 
 const SearchHistory: React.FC = () => {
-  const [search] = useState<ISearch | null>(searchMock);
+  const [searchHistory] = useState<ISearchDTO[]>(searchHistoryMock);
 
   return (
     <div className="w-full min-h-screen flex flex-col relative">
       <Header />
-      <div className="w-full md:max-w-[480px] flex flex-col items-center mx-auto p-8">
-        <Title content="Histórico de buscas" className="mx-auto mt-12 mb-4" />
-        <SearchCepInput />
-        <div className="mt-8">
-          {search ? (
-            <div className="flex flex-col">
-              <span className="text-sm md:text-[1rem] text-center mb-4">
-                Dados encontrados para o cep {search.cep}:
-              </span>
-              <SearchResultCard result={search} />
-            </div>
+      <div className="w-full md:max-w-[1080px] flex flex-col mx-auto px-8 md:px-4">
+        <Title content="Histórico de buscas" className="mt-12 mb-4" />
+        <div className="w-full flex items-center justify-between">
+          <span className="text-sm md:text-base">
+            Exibindo histórico de buscas
+          </span>
+          <button className="flex items-center text-red-600 text-xs md:text-sm ml-6 border-1 border-red-300 p-2 rounded-md">
+            Limpar histórico
+          </button>
+        </div>
+        <div className="mt-6">
+          {searchHistory && searchHistory.length === 0 ? (
+            <NoData
+              content=" Você ainda não realizou nenhuma busca."
+              className="mt-12"
+            />
           ) : (
-            <NoData content="Cep não encontrado, tente realizar uma nova busca." />
+            <HistoryTable history={searchHistory} />
           )}
         </div>
       </div>
