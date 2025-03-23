@@ -9,6 +9,7 @@ const sequelize = new Sequelize("follow-cep-db", "postgres", "admin", {
 export const User = sequelize.define("user", {
   id: {
     type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
   name: {
@@ -18,6 +19,7 @@ export const User = sequelize.define("user", {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true
   },
   password: {
     type: DataTypes.STRING,
@@ -26,5 +28,5 @@ export const User = sequelize.define("user", {
 });
 
 (async () => {
-  await sequelize.sync({ force: true });
+  await sequelize.sync({ force: false });
 })();
