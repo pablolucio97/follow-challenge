@@ -4,8 +4,7 @@ import { CreateCepSearchUseCase } from "../../../domain/useCases/cepSearches/Cre
 export class CreateCepSearchController {
   constructor(private createCepSearchUseCase: CreateCepSearchUseCase) {}
   async handle(request: Request, response: Response): Promise<Response> {
-    const { cep } = request.params;
-    const user_id = "ce23086d-ee71-4f78-9124-bdb412a26437";
+    const { cep, user_id } = request.params;
     try {
       const cepSearch = await this.createCepSearchUseCase.execute({
         cep,

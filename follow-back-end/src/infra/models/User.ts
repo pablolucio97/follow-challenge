@@ -23,5 +23,5 @@ export const User = SequelizeService.define("user", {
 });
 
 (async () => {
-  await SequelizeService.sync({ force: false });
+  await SequelizeService.sync({ force: true });
 })();

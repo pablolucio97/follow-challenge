@@ -11,7 +11,7 @@ export class CepSearchesImplementation implements ICepSearchesRepository {
     const response = await axios.get(
       `https://viacep.com.br/ws/${data.cep}/json/`
     );
-    const user_id = "ce23086d-ee71-4f78-9124-bdb412a26437";
+    const user_id = data.user_id
     if (response.data) {
       const { cep, logradouro, bairro, localidade, uf } = response.data;
       const cepSearch = await this.CepSearchModel.create({

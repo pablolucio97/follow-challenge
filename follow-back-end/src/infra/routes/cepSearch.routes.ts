@@ -14,6 +14,6 @@ const createCepSearchController = new CreateCepSearchController(
   createCepSearchUseCase
 );
 
-cepSearchRoutes.get("/cep/:cep", async (req: Request, res: Response) => {
+cepSearchRoutes.get("/cep/:cep/:user_id", async (req: Request, res: Response) => {
   await createCepSearchController.handle(req, res);
 });

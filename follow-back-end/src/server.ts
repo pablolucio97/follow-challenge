@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import { sequelizeDb } from "./config/database";
 import "./infra/models";
+import './infra/models/associations'
 import { routes } from "./infra/routes";
 const app = express();
 const PORT = process.env.PORT;
