@@ -1,12 +1,7 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes } from "sequelize";
+import { SequelizeService } from "../services/Sequelize";
 
-const sequelize = new Sequelize("follow-cep-db", "postgres", "admin", {
-  host: "localhost",
-  dialect: "postgres",
-  port: 5432,
-});
-
-export const User = sequelize.define("user", {
+export const User = SequelizeService.define("user", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -19,7 +14,7 @@ export const User = sequelize.define("user", {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -28,5 +23,5 @@ export const User = sequelize.define("user", {
 });
 
 (async () => {
-  await sequelize.sync({ force: false });
+  await SequelizeService.sync({ force: false });
 })();
