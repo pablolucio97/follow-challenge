@@ -11,7 +11,7 @@ export class CepSearchesImplementation implements ICepSearchesRepository {
     const response = await axios.get(
       `https://viacep.com.br/ws/${data.cep}/json/`
     );
-    const user_id = data.user_id
+    const user_id = data.user_id;
     if (response.data) {
       const { cep, logradouro, bairro, localidade, uf } = response.data;
       const cepSearch = await this.CepSearchModel.create({
@@ -26,5 +26,13 @@ export class CepSearchesImplementation implements ICepSearchesRepository {
       return savedCepSearch.dataValues;
     }
     return null;
+  }
+  async listCepSearchesByUser(userId: string): Promise<ICepSearchDTO[]> {
+    const cepHistory = await this.CepSearchModel.findAll({
+      where: { user_id: userId },
+      limit: 10,
+      order: [["createdAt", "DESC"]],
+    });
+    return cepHistory.map((cepSearch) => cepSearch.dataValues);
   }
 }
