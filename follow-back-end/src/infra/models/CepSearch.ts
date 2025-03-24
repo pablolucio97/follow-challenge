@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import { SequelizeService } from "../services/Sequelize";
+import { sequelizeDb } from "../../config/database";
 
-export const CepSearch = SequelizeService.define("cep_search", {
+export const CepSearch = sequelizeDb.define("cep_search", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,

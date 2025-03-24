@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
-import { SequelizeService } from "../services/Sequelize";
+import { sequelizeDb } from "../../config/database";
 
-export const User = SequelizeService.define("user", {
+export const User = sequelizeDb.define("user", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -21,7 +21,3 @@ export const User = SequelizeService.define("user", {
     allowNull: false,
   },
 });
-
-(async () => {
-  await SequelizeService.sync({ force: true });
-})();
