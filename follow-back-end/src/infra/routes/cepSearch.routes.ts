@@ -1,14 +1,16 @@
 import { Request, Response, Router } from "express";
 import { CepSearchesImplementation } from "../../domain/repositories/implementations/CepSearchesImplementation";
+import { ClearCepSearchesUseCase } from "../../domain/useCases/cepSearches/ClearCepSearchesUseCase";
 import { CreateCepSearchUseCase } from "../../domain/useCases/cepSearches/CreateCepSearchUseCase";
 import { ListCepSearchesByUserUseCase } from "../../domain/useCases/cepSearches/ListCepSearchesByUserUseCase";
+import { ClearCepSearchesController } from "../controllers/cepSearches/ClearCepSearchesController";
 import { CreateCepSearchController } from "../controllers/cepSearches/CreateCepSearchController";
 import { models } from "../models";
 import { ListCepSearchesByUserController } from "./../controllers/cepSearches/ListCepSearchesByUserController";
 
 export const cepSearchRoutes = Router();
-const { CepSearch } = models;
-const cepSearchImplementation = new CepSearchesImplementation(CepSearch);
+const { CepSearch, User } = models;
+const cepSearchImplementation = new CepSearchesImplementation(CepSearch, User);
 
 const createCepSearchUseCase = new CreateCepSearchUseCase(
   cepSearchImplementation
@@ -22,6 +24,12 @@ const listCepSearchesByUserUseCase = new ListCepSearchesByUserUseCase(
 const listCepSearchesByUserController = new ListCepSearchesByUserController(
   listCepSearchesByUserUseCase
 );
+const clearCepSearchesUseCase = new ClearCepSearchesUseCase(
+  cepSearchImplementation
+);
+const clearCepSearchesController = new ClearCepSearchesController(
+  clearCepSearchesUseCase
+);
 
 cepSearchRoutes.get(
   "/cep/:cep/:user_id",
@@ -33,5 +41,11 @@ cepSearchRoutes.get(
   "/cep-history/:user_id",
   async (req: Request, res: Response) => {
     await listCepSearchesByUserController.handle(req, res);
+  }
+);
+cepSearchRoutes.delete(
+  "/cep-history/:user_id",
+  async (req: Request, res: Response) => {
+    await clearCepSearchesController.handle(req, res);
   }
 );

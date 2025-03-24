@@ -2,9 +2,13 @@ import axios from "axios";
 import { ICepSearchDTO, ICreateCepSearchDTO } from "../../dtos/CepSearchDTO";
 import { ICepSearchesRepository } from "../interfaces/CepSearchesRepository";
 import { CepSearch } from "./../../../infra/models/CepSearch";
+import { User } from "./../../../infra/models/User";
 
 export class CepSearchesImplementation implements ICepSearchesRepository {
-  constructor(private CepSearchModel: typeof CepSearch) {}
+  constructor(
+    private CepSearchModel: typeof CepSearch,
+     private UserModel : typeof User
+    ) {}
   async createCepSearch(
     data: ICreateCepSearchDTO
   ): Promise<ICepSearchDTO | null> {
@@ -34,5 +38,13 @@ export class CepSearchesImplementation implements ICepSearchesRepository {
       order: [["createdAt", "DESC"]],
     });
     return cepHistory.map((cepSearch) => cepSearch.dataValues);
+  }
+  async clearCepSearches(userId: string): Promise<null> {
+    const user = await this.UserModel.findOne({ where: { id: userId } });
+    if(!user){
+      throw new Error("User not found");
+    }
+    await this.CepSearchModel.destroy({ where: { user_id: userId } });
+    return null;
   }
 }
