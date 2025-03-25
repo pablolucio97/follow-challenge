@@ -7,5 +7,5 @@ import {
 
 export interface IUsersRepository {
   createUser(data: ICreateUserDTO): Promise<IUser>;
-  authenticateUser?(data: IAuthenticateUserDTO): Promise<IAuthenticatedUserData>;
+  authenticateUser(data: IAuthenticateUserDTO): Promise<IAuthenticatedUserData | null>;
 }

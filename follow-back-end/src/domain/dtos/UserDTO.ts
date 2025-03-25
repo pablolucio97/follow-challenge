@@ -12,7 +12,6 @@ export interface ICreateUserDTO {
 }
 
 export interface IAuthenticateUserDTO {
-    name: string;
     email: string;
     password: string;
 }
