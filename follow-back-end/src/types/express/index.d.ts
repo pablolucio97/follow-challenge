@@ -5,4 +5,8 @@ declare module 'express' {
     success: (data: any, status: number) => Response;
     error: (message: string, status: number) => Response;
   }
+
+  interface Request {
+    userId?: string;
+  }
 }

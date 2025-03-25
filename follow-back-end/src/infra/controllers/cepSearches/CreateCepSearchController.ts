@@ -3,14 +3,18 @@ import { CreateCepSearchUseCase } from "../../../domain/useCases/cepSearches/Cre
 
 export class CreateCepSearchController {
   constructor(private createCepSearchUseCase: CreateCepSearchUseCase) {}
-  async handle(request: Request, response: Response): Promise<Response> {
-    const { cep, user_id } = request.params;
+  async handle(request: Request, response: Response): Promise<Response | null> {
+    const { cep } = request.params;
+    const userId = request.userId;
     try {
-      const cepData = await this.createCepSearchUseCase.execute({
-        cep,
-        user_id,
-      });
-      return response.success(cepData, 201);
+      if (userId) {
+        const cepData = await this.createCepSearchUseCase.execute({
+          cep,
+          user_id: userId,
+        });
+        return response.success(cepData, 201);
+      }
+      return null;
     } catch (error: any) {
       const message = error.message || "Unexpected error.";
       return response.error(message, 400);
