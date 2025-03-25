@@ -9,6 +9,7 @@ interface SignInFormProps {
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
   onSubmit: () => void;
+  disabled?: boolean;
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({
@@ -17,6 +18,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
   password,
   setPassword,
   onSubmit,
+  disabled
 }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,6 +43,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        disabled={disabled}
       />
       <Button title="Fazer login" className="my-2" type="submit" />
       <div className="mt-2 flex justify-center">

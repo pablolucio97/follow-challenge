@@ -15,7 +15,7 @@ const SignIn: React.FC = () => {
     return new UsersRepository();
   }, []);
 
-  const signIn = useCallback(async () => {
+  const handleSignIn = useCallback(async () => {
     try {
       const authData = await usersRepository.authenticateUser({
         email,
@@ -39,7 +39,7 @@ const SignIn: React.FC = () => {
           setEmail={setEmail}
           password={password}
           setPassword={setPassword}
-          onSubmit={signIn}
+          onSubmit={handleSignIn}
         />
       </div>
       <FooterLink className="absolute bottom-4" />

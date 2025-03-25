@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`w-full h-[52px] flex items-center justify-center bg-gradient-to-r from-primary to-secondary normal-case lg:text-base text-sm font-medium font-poppins rounded-lg disabled:opacity-[0.5] text-gray-50 font-secondary ${className}`}
+      className={`w-full h-[52px] flex items-center justify-center bg-gradient-to-r from-primary to-secondary normal-case lg:text-base text-sm font-medium font-poppins rounded-lg disabled:cursor-normal disabled:opacity-[0.5] text-gray-50 font-secondary ${className}`}
       {...rest}
     >
       {isLoading ? <Loading hideText color="#ffffff" /> : title}
