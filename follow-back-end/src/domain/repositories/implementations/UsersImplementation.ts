@@ -5,13 +5,13 @@ import {
   IAuthenticatedUserData,
   IAuthenticateUserDTO,
   ICreateUserDTO,
-  IUser,
+  IUserDTO,
 } from "../../dtos/UserDTO";
 import { IUsersRepository } from "../interfaces/UsersRepository";
 
 export class UsersImplementation implements IUsersRepository {
   constructor(private UserModel: typeof User) {}
-  async createUser(data: ICreateUserDTO): Promise<IUser> {
+  async createUser(data: ICreateUserDTO): Promise<IUserDTO> {
     const userAlreadyExists = await this.UserModel.findOne({
       where: { email: data.email },
     });
