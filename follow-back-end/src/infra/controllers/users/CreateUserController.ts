@@ -12,17 +12,17 @@ export class CreateUserController {
         email,
         password,
       });
-      return response.status(201).json(user);
+      return response.success(user, 201);
     } catch (error) {
       const typedError =
         typeof error === "object" &&
         error !== null &&
-        "message" in error &&
-        typeof error.message === "string";
-
-      return response.status(400).json({
-        message: typedError ? error.message : "Unexpected error.",
-      });
+        "name" in error &&
+        typeof error.name === "string";
+      return response.error(
+        typedError ? String(error.name) : "Unexpected error",
+        typedError ? 400 : 500
+      );
     }
   }
 }

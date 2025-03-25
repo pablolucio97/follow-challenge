@@ -1,13 +1,15 @@
 import "dotenv/config";
 import express from "express";
 import { sequelizeDb } from "./config/database";
+import { responseMiddleware } from "./infra/middlewares/response.middleware";
 import "./infra/models";
-import './infra/models/associations'
+import "./infra/models/associations";
 import { routes } from "./infra/routes";
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(responseMiddleware as any);
 app.use(routes);
 
 sequelizeDb

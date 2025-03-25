@@ -11,16 +11,17 @@ export class ListCepSearchesByUserController {
       const cepHistory = await this.listCepSearchesByUserUseCase.execute(
         user_id
       );
-      return response.status(200).json(cepHistory);
+      return response.success(cepHistory, 200);
     } catch (error) {
       const typedError =
         typeof error === "object" &&
         error !== null &&
-        "message" in error &&
-        typeof error.message === "string";
-      return response.status(400).json({
-        message: typedError ? error.message : "Unexpected error.",
-      });
+        "name" in error &&
+        typeof error.name === "string";
+      return response.error(
+        typedError ? String(error.name) : "Unexpected error",
+        typedError ? 400 : 500
+      );
     }
   }
 }

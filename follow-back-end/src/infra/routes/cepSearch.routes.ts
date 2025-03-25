@@ -33,19 +33,19 @@ const clearCepSearchesController = new ClearCepSearchesController(
 
 cepSearchRoutes.get(
   "/cep/:cep/:user_id",
-  async (req: Request, res: Response) => {
+  async (req: Request, res: any) => {
     await createCepSearchController.handle(req, res);
   }
 );
 cepSearchRoutes.get(
   "/cep-history/:user_id",
-  async (req: Request, res: Response) => {
+  async (req: Request, res: any) => {
     await listCepSearchesByUserController.handle(req, res);
   }
 );
 cepSearchRoutes.delete(
   "/cep-history/:user_id",
-  async (req: Request, res: Response) => {
+  async (req: Request, res: any) => {
     await clearCepSearchesController.handle(req, res);
   }
 );
