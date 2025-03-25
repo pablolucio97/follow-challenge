@@ -13,16 +13,9 @@ export class CreateUserController {
         password,
       });
       return response.success(user, 201);
-    } catch (error) {
-      const typedError =
-        typeof error === "object" &&
-        error !== null &&
-        "name" in error &&
-        typeof error.name === "string";
-      return response.error(
-        typedError ? String(error.name) : "Unexpected error",
-        typedError ? 400 : 500
-      );
+    } catch (error: any) {
+      const message = error.message || "Unexpected error.";
+      return response.error(message, 400);
     }
   }
 }
