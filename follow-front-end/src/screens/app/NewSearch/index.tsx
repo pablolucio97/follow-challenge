@@ -1,18 +1,58 @@
+import Button from "@/components/buttons/Button";
 import SearchCepInput from "@/components/inputs/SearchCepInput";
+import ErrorData from "@/components/miscellaneous/ErrorData";
 import FooterLink from "@/components/miscellaneous/FooterLink";
 import GreetUser from "@/components/miscellaneous/GreetUser";
 import Header from "@/components/miscellaneous/Header";
-import NoData from "@/components/miscellaneous/NoData";
+import Loading from "@/components/miscellaneous/Loading";
 import Title from "@/components/typography/Title";
-import { ISearchDTO } from "dtos/Search";
+import { CepSearchesRepository } from "@/repositories/CepSearchesRepository";
+import { maskCep, removeCepMask } from "@/utils/formats";
+import { ICepSearchDTO } from "dtos/Search";
 import useAuth from "hooks/useAuth";
-import { searchMock } from "mock";
-import { useState } from "react";
+import { useLoading } from "hooks/useLoading";
+import { useCallback, useMemo, useState } from "react";
 import SearchResultCard from "./components/SearchResultCard";
 
 const NewSearch: React.FC = () => {
-  const [search] = useState<ISearchDTO | null>(searchMock);
+  const [cep, setCep] = useState("");
+  const [search, setSearch] = useState<ICepSearchDTO | null>(null);
+  const [hasError, setHasError] = useState(false);
+
   const { user } = useAuth();
+  const { loading, setLoading } = useLoading();
+
+  const cepSearchesRepository = useMemo(() => {
+    return new CepSearchesRepository();
+  }, []);
+
+  const handleMakeNewSearch = useCallback(async () => {
+    try {
+      setLoading(true);
+      if (user?.token) {
+        const { DATA: data } = await cepSearchesRepository.createCepSearch({
+          cep: removeCepMask(cep),
+          token: user.token,
+        });
+        if (data) {
+          setSearch(data);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setHasError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, [cep, cepSearchesRepository, setLoading, user]);
+
+  const MASKED_CEP_LENGTH = 10;
+
+  const handleResetSearch = useCallback(() => {
+    setCep("");
+    setSearch(null);
+    setHasError(false);
+  }, []);
 
   return (
     <div className="w-full min-h-screen flex flex-col relative">
@@ -20,22 +60,51 @@ const NewSearch: React.FC = () => {
       <div className="w-[90%] md:max-w-[1080px] flex flex-col items-center mx-auto px-8 md:px-4 mt-12">
         <GreetUser userName={user!.name} />
         <Title
-          content="Informe um CEP para começar"
-          className="mx-auto mt-16 mb-6"
+          content={
+            search
+              ? `Dados encontrados para o cep ${maskCep(search.cep)}`
+              : "Informe um CEP para fazer uma busca"
+          }
+          className="mx-auto mt-16 "
         />
-        <div className="w-full md:max-w-[400px]">
-          <SearchCepInput />
-        </div>
-        <div className="mt-8">
-          {search ? (
-            <div className="flex flex-col">
-              <span className="text-sm md:text-[1rem] text-center mb-4">
-                Dados encontrados para o cep {search.cep}:
-              </span>
+
+        <div className="w-full md:max-w-[400px] flex flex-col items-center mt-8">
+          {loading ? (
+            <div className="w-full mt-8">
+              <Loading />
+            </div>
+          ) : hasError ? (
+            <div className="w-full mt-8">
+              <ErrorData
+                content=" Cep não encontrado. Tente novamente."
+                className="mt-12"
+              />
+              <Button
+                title="Fazer nova busca"
+                onClick={handleResetSearch}
+                className="mt-4"
+              />
+            </div>
+          ) : search ? (
+            <div className="w-full flex flex-col">
               <SearchResultCard result={search} />
+              <Button
+                title="Fazer nova busca"
+                onClick={handleResetSearch}
+                className="mt-4"
+              />
             </div>
           ) : (
-            <NoData content="Cep não encontrado, tente realizar uma nova busca." />
+            <div className="w-full">
+              <SearchCepInput
+                value={cep}
+                onChange={(e) => setCep(e.target.value)}
+                onSearch={handleMakeNewSearch}
+                disabled={
+                  loading || cep.length < MASKED_CEP_LENGTH || search !== null
+                }
+              />
+            </div>
           )}
         </div>
       </div>

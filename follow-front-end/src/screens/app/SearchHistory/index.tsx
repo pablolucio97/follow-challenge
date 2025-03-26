@@ -5,7 +5,7 @@ import Loading from "@/components/miscellaneous/Loading";
 import NoData from "@/components/miscellaneous/NoData";
 import Title from "@/components/typography/Title";
 import { CepSearchesRepository } from "@/repositories/CepSearchesRepository";
-import { showErrorToast } from "@/utils/toast";
+import { showErrorToast, showSuccessToast } from "@/utils/toast";
 import { ICepSearchDTO } from "dtos/Search";
 import useAuth from "hooks/useAuth";
 import { useLoading } from "hooks/useLoading";
@@ -53,12 +53,12 @@ const SearchHistory: React.FC = () => {
       if (user) {
         const { token } = user;
         if (token) {
-          const cepSearchesHistory =
-            await cepSearchesRepository.clearCepSearchHistoryByUser({
-              token,
-              user_id: user.id,
-            });
-          return cepSearchesHistory;
+          await cepSearchesRepository.clearCepSearchHistoryByUser({
+            token,
+            user_id: user.id,
+          });
+          getUserCepSearchHistory();
+          showSuccessToast("Histórico de buscas limpo com sucesso.");
         }
       }
     } catch (error) {
@@ -67,7 +67,7 @@ const SearchHistory: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [cepSearchesRepository, setLoading, user]);
+  }, [cepSearchesRepository, getUserCepSearchHistory, setLoading, user]);
 
   useEffect(() => {
     getUserCepSearchHistory();
@@ -83,7 +83,7 @@ const SearchHistory: React.FC = () => {
             Exibindo histórico de buscas
           </span>
           <button
-            className="flex items-center text-red-600 text-xs md:text-sm ml-6 border-1 border-red-300 p-2 rounded-md"
+            className="flex items-center text-red-600 text-xs md:text-sm ml-6 border-1 border-red-300 p-2 rounded-md cursor-pointer"
             onClick={handleClearCepSearchHistory}
           >
             Limpar histórico

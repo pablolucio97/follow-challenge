@@ -3,10 +3,14 @@ import { FaSearch } from "react-icons/fa";
 
 interface TextInputProps extends InputMaskProps {
   containerClassName?: string;
+  onSearch: () => void;
+  disabled?: boolean;
 }
 
 const SearchCepInput: React.FC<TextInputProps> = ({
   containerClassName,
+  onSearch,
+  disabled,
   ...rest
 }) => {
   return (
@@ -20,7 +24,11 @@ const SearchCepInput: React.FC<TextInputProps> = ({
           placeholder="__.___-___"
           {...rest}
         />
-        <button className="w-[15%] rounded-br-lg rounded-tr-lg bg-gradient-to-r from-primary to-secondary h-[52px] flex items-center justify-center ml-[-1rem]">
+        <button
+          className="w-[15%] rounded-br-lg rounded-tr-lg bg-gradient-to-r from-primary to-secondary h-[52px] flex items-center justify-center ml-[-1rem] cursor-pointer disabled:cursor-not-allowed"
+          onClick={onSearch}
+          disabled={disabled}
+        >
           <FaSearch className="w-5 h-5 md:w-6 md:h-6 text-white" />
         </button>
       </div>

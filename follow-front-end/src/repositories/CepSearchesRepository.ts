@@ -13,7 +13,7 @@ export class CepSearchesRepository {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response;
+    return response.data;
   }
   async listCepSearchHistoryByUser(data: IGetCepSearchHistoryDTO) {
     const { user_id, token } = data;
@@ -31,6 +31,6 @@ export class CepSearchesRepository {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response;
+    return response.data;
   }
 }
