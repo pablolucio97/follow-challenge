@@ -5,10 +5,6 @@ import { formatDate } from "@/utils/formats";
 import { Card, CardBody, CardFooter } from "@material-tailwind/react";
 import { ICepSearchDTO } from "dtos/Search";
 import { useCallback, useEffect, useState } from "react";
-import {
-  MdKeyboardDoubleArrowLeft,
-  MdKeyboardDoubleArrowRight,
-} from "react-icons/md";
 
 const TABLE_HEAD = [
   { label: "Cep", propRef: "cep" },
@@ -21,11 +17,18 @@ const TABLE_HEAD = [
 
 interface HistoryTableProps {
   history: ICepSearchDTO[];
+  onNextPage: () => void;
+  onPreviousPage: () => void;
+  currentPage: number;
 }
 
-const HistoryTable: React.FC<HistoryTableProps> = ({ history }) => {
+const HistoryTable: React.FC<HistoryTableProps> = ({
+  history,
+  currentPage,
+  onNextPage,
+  onPreviousPage,
+}) => {
   const [page, setPage] = useState(1);
-  const [pagesListIndex, setPagesListIndex] = useState(0);
   const [sortedHistory, setSortedHistory] = useState<ICepSearchDTO[]>([]);
   const [tableData, setTableData] = useState<ICepSearchDTO[]>([]);
   const itemsPerPage = 10;
@@ -34,12 +37,6 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ history }) => {
     { length: Math.ceil(sortedHistory.length / itemsPerPage) },
     (_, idx) => idx + 1
   );
-
-  const MAX_PAGES_TO_SHOW = 5;
-
-  const canGoToPreviousSet = pagesListIndex > 0;
-  const canGoToNextSet =
-    pagesListIndex < Math.ceil(pages.length / MAX_PAGES_TO_SHOW) - 1;
 
   const currentTableData = useCallback(() => {
     const startIndex = (page - 1) * itemsPerPage;
@@ -153,64 +150,23 @@ const HistoryTable: React.FC<HistoryTableProps> = ({ history }) => {
         onPointerLeaveCapture={null}
       >
         <button
-          onClick={() => setPage(page - 1)}
-          disabled={page <= 1}
-          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none"
+          onClick={onPreviousPage}
+          disabled={currentPage <= 1}
+          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none border-1 border-gray-300 p-2 cursor-pointer rounded-sm"
         >
           Anterior
         </button>
         <div className="flex md:flex-row flex-col md:w-full w-[90%] mx-auto items-center justify-center">
           <div className="flex items-center gap-2  mb-4 lg:mb-0">
-            {pages.length > MAX_PAGES_TO_SHOW ? (
-              <div className="flex flex-row">
-                {canGoToPreviousSet && (
-                  <button
-                    onClick={() => setPagesListIndex(pagesListIndex - 1)}
-                    className="text-gray-700"
-                  >
-                    <MdKeyboardDoubleArrowLeft className="h-5 w-5 text-gray-800" />
-                  </button>
-                )}
-                {pages
-                  .slice(
-                    pagesListIndex * MAX_PAGES_TO_SHOW,
-                    MAX_PAGES_TO_SHOW * (pagesListIndex + 1)
-                  )
-                  .map((historyPage) => (
-                    <button
-                      key={historyPage}
-                      onClick={() => setPage(historyPage)}
-                      className="text-[11px] lg:text-sm w-6 h-6 lg:w-8 lg:h-8 mr-2 mt-2 text-gray-700  shadow-none"
-                    >
-                      {historyPage}
-                    </button>
-                  ))}
-                {canGoToNextSet && (
-                  <button
-                    onClick={() => setPagesListIndex(pagesListIndex + 1)}
-                    className="text-gray-700"
-                  >
-                    <MdKeyboardDoubleArrowRight className="h-5 w-5 text-gray-800" />
-                  </button>
-                )}
-              </div>
-            ) : (
-              pages.map((historyPage) => (
-                <button
-                  key={historyPage}
-                  onClick={() => setPage(historyPage)}
-                  className="text-[11px] lg:text-sm w-6 h-6 lg:w-8 lg:h-8 mr-2 mt-2 text-gray-700 shadow-none"
-                >
-                  {historyPage}
-                </button>
-              ))
-            )}
+            <span className="mt-2 text-[11px] lg:text-sm font-bold">
+              Página {currentPage}
+            </span>
           </div>
         </div>
         <button
-          onClick={() => setPage(page + 1)}
-          disabled={page === pages[pages.length - 1]}
-          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700   shadow-none"
+          onClick={onNextPage}
+          disabled={currentPage > pages[pages.length - 1]}
+          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none border-1 border-gray-300 p-2 cursor-pointer rounded-sm"
         >
           Próximo
         </button>

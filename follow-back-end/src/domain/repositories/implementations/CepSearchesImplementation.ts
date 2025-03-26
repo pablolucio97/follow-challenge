@@ -36,12 +36,15 @@ export class CepSearchesImplementation implements ICepSearchesRepository {
     }
     return null;
   }
-  async listCepSearchesByUser(userId: string): Promise<ICepSearchDTO[] | null> {
+  async listCepSearchesByUser(userId: string, page: number): Promise<ICepSearchDTO[] | null> {
     const user = await this.checkUserExists(userId);
     if (user) {
+      const limit = 10
+      const offset = (page - 1) * limit
       const cepHistory = await this.CepSearchModel.findAll({
         where: { user_id: userId },
-        limit: 10,
+        limit,
+        offset,
         order: [["createdAt", "DESC"]],
       });
       return cepHistory.map((cepSearch) => cepSearch.dataValues);

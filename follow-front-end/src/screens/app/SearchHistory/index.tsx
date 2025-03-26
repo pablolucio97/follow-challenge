@@ -14,6 +14,7 @@ import HistoryTable from "./components/HistoryTable";
 
 const SearchHistory: React.FC = () => {
   const [searchHistory, setSearchHistory] = useState<ICepSearchDTO[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [hasError, setHasError] = useState(false);
   const { user } = useAuth();
   const { loading, setLoading } = useLoading();
@@ -29,10 +30,13 @@ const SearchHistory: React.FC = () => {
         const { token } = user;
         if (token) {
           const { DATA: data } =
-            await cepSearchesRepository.listCepSearchHistoryByUser({
-              token,
-              user_id: user.id,
-            });
+            await cepSearchesRepository.listCepSearchHistoryByUser(
+              {
+                token,
+                user_id: user.id,
+              },
+              currentPage
+            );
           if (data) {
             setSearchHistory(data);
           }
@@ -45,7 +49,7 @@ const SearchHistory: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [cepSearchesRepository, setLoading, user]);
+  }, [cepSearchesRepository, currentPage, setLoading, user]);
 
   const handleClearCepSearchHistory = useCallback(async () => {
     try {
@@ -73,6 +77,14 @@ const SearchHistory: React.FC = () => {
     getUserCepSearchHistory();
   }, [getUserCepSearchHistory]);
 
+  const handleNextPage = useCallback(() => {
+    setCurrentPage((prev) => prev + 1);
+  }, []);
+
+  const handlePreviousPage = useCallback(() => {
+    setCurrentPage((prev) => prev - 1);
+  }, []);
+
   return (
     <div className="w-full min-h-screen flex flex-col relative">
       <Header />
@@ -80,7 +92,7 @@ const SearchHistory: React.FC = () => {
         <Title content="Histórico de buscas" className="mt-12 mb-4" />
         <div className="w-full flex items-center justify-between">
           <span className="text-sm md:text-base">
-            Exibindo histórico de buscas
+            Exibindo histórico de buscas - {searchHistory.length} registros
           </span>
           <button
             className="flex items-center text-red-600 text-xs md:text-sm ml-6 border-1 border-red-300 p-2 rounded-md cursor-pointer"
@@ -107,7 +119,12 @@ const SearchHistory: React.FC = () => {
               className="mt-12"
             />
           ) : (
-            <HistoryTable history={searchHistory} />
+            <HistoryTable
+              history={searchHistory}
+              onNextPage={handleNextPage}
+              onPreviousPage={handlePreviousPage}
+              currentPage={currentPage}
+            />
           )}
         </div>
       </div>

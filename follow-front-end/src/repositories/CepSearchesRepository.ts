@@ -15,9 +15,9 @@ export class CepSearchesRepository {
     });
     return response.data;
   }
-  async listCepSearchHistoryByUser(data: IGetCepSearchHistoryDTO) {
+  async listCepSearchHistoryByUser(data: IGetCepSearchHistoryDTO, page: number) {
     const { user_id, token } = data;
-    const response = await api.get(`/cep-history/${user_id}`, {
+    const response = await api.get(`/cep-history/${user_id}?page=${page}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
