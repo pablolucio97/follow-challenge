@@ -2,8 +2,11 @@ import FooterLink from "@/components/miscellaneous/FooterLink";
 import LogoText from "@/components/miscellaneous/LogoText";
 import Title from "@/components/typography/Title";
 import { UsersRepository } from "@/repositories/UsersRepository";
+import { showErrorToast, showSuccessToast } from "@/utils/toast";
 import { isEmailValid } from "@/utils/validations";
+import { useLoading } from "hooks/useLoading";
 import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SignUpForm from "./components/SignUpForm";
 
 const SignUp: React.FC = () => {
@@ -12,25 +15,37 @@ const SignUp: React.FC = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
+  const { loading, setLoading } = useLoading();
+  const navigate = useNavigate();
+
   const usersRepository = useMemo(() => {
     return new UsersRepository();
   }, []);
 
   const handleRegisterUser = useCallback(async () => {
     try {
+      setLoading(true);
       const user = await usersRepository.createUser({
         name,
         email,
         password,
       });
       if (user) {
-        console.log(user);
+        showSuccessToast("Usuário cadastrado com sucesso!");
+        navigate("/");
       }
     } catch (error) {
+      showErrorToast(
+        `Houve um erro ao cadastrar usuário. \n Por favor, tente novamente mais tarde.`
+      );
       console.log("Error", error);
+    } finally {
+      setLoading(false);
     }
-  }, [email, name, password, usersRepository]);
+  }, [email, name, navigate, password, setLoading, usersRepository]);
+
   const MIN_PASSWORD_LENGTH = 6;
+
   const isFormValid =
     name &&
     email &&
@@ -56,6 +71,7 @@ const SignUp: React.FC = () => {
           setPasswordConfirmation={setPasswordConfirmation}
           onSubmit={handleRegisterUser}
           disabled={!isFormValid}
+          isLoading={loading}
         />
       </div>
       <FooterLink className="absolute bottom-4" />

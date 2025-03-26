@@ -10,6 +10,7 @@ interface SignInFormProps {
   setPassword: Dispatch<SetStateAction<string>>;
   onSubmit: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({
@@ -18,7 +19,8 @@ const SignInForm: React.FC<SignInFormProps> = ({
   password,
   setPassword,
   onSubmit,
-  disabled
+  disabled,
+  isLoading
 }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,9 +45,14 @@ const SignInForm: React.FC<SignInFormProps> = ({
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        disabled={disabled}
       />
-      <Button title="Fazer login" className="my-2" type="submit" />
+      <Button
+        title="Fazer login"
+        className="my-2"
+        type="submit"
+        disabled={disabled}
+        isLoading={isLoading}
+      />
       <div className="mt-2 flex justify-center">
         <span className="text-gray-800 text-xs md:text-sm">
           Não tem uma conta?{" "}

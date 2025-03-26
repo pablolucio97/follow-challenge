@@ -14,6 +14,7 @@ interface SignUpFormProps {
   passwordConfirmation: string;
   setPasswordConfirmation: Dispatch<SetStateAction<string>>;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = ({
@@ -26,7 +27,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
   passwordConfirmation,
   setPasswordConfirmation,
   onSubmit,
-  disabled
+  disabled,
+  isLoading,
 }) => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -66,7 +68,13 @@ const SignUpForm: React.FC<SignUpFormProps> = ({
         value={passwordConfirmation}
         onChange={(e) => setPasswordConfirmation(e.target.value)}
       />
-      <Button title="Cadastrar usuário" className="my-2" type="submit" disabled={disabled}/>
+      <Button
+        title="Cadastrar usuário"
+        className="my-2"
+        type="submit"
+        disabled={disabled}
+        isLoading={isLoading}
+      />
       <div className="mt-2 flex justify-center">
         <span className="text-gray-800 text-xs md:text-sm">
           Já possui um usuário?{" "}

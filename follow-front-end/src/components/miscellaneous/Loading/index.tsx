@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { CircleLoader } from "react-spinners";
+import { ScaleLoader } from "react-spinners";
 
 interface LoadingProps {
   color?: string;
@@ -10,17 +10,18 @@ interface LoadingProps {
 const Loading: React.FC<LoadingProps> = ({ color, text, hideText }) => {
   const override: CSSProperties = {
     display: "block",
-    margin: "0 auto",
+    margin: "0.5 auto",
   };
   return (
     <div className="w-full flex flex-col items-center justify-center">
-      <CircleLoader
+      <ScaleLoader
         color={color || "#33C896"}
         loading
         cssOverride={override}
-        size={32}
+        height={16}
         aria-label="Loading Spinner"
         data-testid="loader"
+        className="mt-2"
       />
       {!hideText && (
         <span className="text-gray-800 text-[11px] lg:text-sm font-secondary mt-3">

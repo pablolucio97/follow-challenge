@@ -2,7 +2,10 @@ import FooterLink from "@/components/miscellaneous/FooterLink";
 import LogoText from "@/components/miscellaneous/LogoText";
 import Title from "@/components/typography/Title";
 import { UsersRepository } from "@/repositories/UsersRepository";
+import { showErrorToast } from "@/utils/toast";
+import { isEmailValid } from "@/utils/validations";
 import useAuth from "hooks/useAuth";
+import { useLoading } from "hooks/useLoading";
 import { useCallback, useMemo, useState } from "react";
 import SignInForm from "./components/SignInForm";
 
@@ -11,12 +14,23 @@ const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { loading, setLoading } = useLoading();
+
   const usersRepository = useMemo(() => {
     return new UsersRepository();
   }, []);
 
+  const MIN_PASSWORD_LENGTH = 6;
+
+  const isFormValid =
+    email &&
+    isEmailValid(email) &&
+    password &&
+    password.length >= MIN_PASSWORD_LENGTH;
+
   const handleSignIn = useCallback(async () => {
     try {
+      setLoading(true);
       const authData = await usersRepository.authenticateUser({
         email,
         password,
@@ -25,9 +39,14 @@ const SignIn: React.FC = () => {
         authenticateUser(authData);
       }
     } catch (error) {
+      showErrorToast(
+        `Houve um erro ao autenticar usuário. \n Por favor, tente novamente mais tarde.`
+      );
       console.log("Error", error);
+    } finally {
+      setLoading(false);
     }
-  }, [authenticateUser, email, password, usersRepository]);
+  }, [authenticateUser, email, password, setLoading, usersRepository]);
 
   return (
     <div className="w-full min-h-screen flex flex-col relative">
@@ -40,6 +59,8 @@ const SignIn: React.FC = () => {
           password={password}
           setPassword={setPassword}
           onSubmit={handleSignIn}
+          disabled={!isFormValid || loading}
+          isLoading={loading}
         />
       </div>
       <FooterLink className="absolute bottom-4" />
