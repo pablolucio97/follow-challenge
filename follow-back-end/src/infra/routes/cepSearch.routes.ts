@@ -6,6 +6,7 @@ import { ListCepSearchesByUserUseCase } from "../../domain/useCases/cepSearches/
 import { ClearCepSearchesController } from "../controllers/cepSearches/ClearCepSearchesController";
 import { CreateCepSearchController } from "../controllers/cepSearches/CreateCepSearchController";
 import { checkAuth } from "../middlewares/checkAuth.middleware";
+import { userRateLimiter } from "../middlewares/userRateLimiter.middleware";
 import { models } from "../models";
 import { ListCepSearchesByUserController } from "./../controllers/cepSearches/ListCepSearchesByUserController";
 
@@ -35,17 +36,14 @@ const clearCepSearchesController = new ClearCepSearchesController(
 cepSearchRoutes.get(
   "/cep/:cep",
   checkAuth as RequestHandler,
+  userRateLimiter,
   async (req: Request, res: any) => {
     await createCepSearchController.handle(req, res);
   }
 );
-cepSearchRoutes.get(
-  "/cep-history/:user_id",
-  checkAuth as RequestHandler,
-  async (req: Request, res: any) => {
-    await listCepSearchesByUserController.handle(req, res);
-  }
-);
+cepSearchRoutes.get("/cep-history/:user_id", async (req: Request, res: any) => {
+  await listCepSearchesByUserController.handle(req, res);
+});
 cepSearchRoutes.delete(
   "/cep-history/:user_id",
   checkAuth as RequestHandler,
