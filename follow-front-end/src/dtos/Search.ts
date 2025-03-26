@@ -1,10 +1,24 @@
-export interface ISearchDTO {
-    id: string;
+export interface ICepSearchDTO{
     user_id: string;
     cep: string;
-    city: string;
-    district: string;
-    uf: string;
     address: string;
-    created_at: string;
+    district: string;
+    city: string;
+    uf: string;
+    createdAt: string;
+}
+
+export interface ICreateCepSearchDTO{
+    token: string;
+    cep: string;
+}
+
+export interface IGetCepSearchHistoryDTO{
+    token: string;
+    user_id: string;
+}
+
+export interface IDeleteCepSearchHistoryDTO{
+    token: string;
+    user_id: string;
 }

@@ -2,6 +2,7 @@ export interface IUserDTO {
     id: string;
     name: string;
     email: string;
+    token?: string;
 }
 
 export interface ICreateUserDTO {

@@ -17,7 +17,12 @@ export class CreateCepSearchController {
       return null;
     } catch (error: any) {
       const message = error.message || "Unexpected error.";
-      return response.error(message, 400);
+      switch (error.message) {
+        case "CEP not found.":
+          return response.error(message, 404);
+        default:
+          return response.error(message, 400);
+      }
     }
   }
 }
