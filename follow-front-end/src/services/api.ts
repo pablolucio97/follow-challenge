@@ -23,7 +23,7 @@ api.interceptors.response.use(
     return response;
   },
   (error: AxiosError<IApiErrorResponse>) => {
-    console.log("[RESPONSE ERROR]", error.response?.data);
+    console.error("[RESPONSE ERROR]", error);
     return Promise.reject(error);
   }
 );

@@ -34,10 +34,16 @@ const SignUp: React.FC = () => {
         showSuccessToast("Usuário cadastrado com sucesso!");
         navigate("/");
       }
-    } catch (error) {
-      showErrorToast(
-        `Houve um erro ao cadastrar usuário. \n Por favor, tente novamente mais tarde.`
-      );
+    } catch (error: any) {
+      if (error && error.response && error.response.status === 409) {
+        showErrorToast(
+          `Já existe um usuário cadastradado para os dados informados. Utilize outros dados.`
+        );
+      } else {
+        showErrorToast(
+          `Houve um erro ao cadastrar usuário. \n Por favor, tente novamente mais tarde.`
+        );
+      }
       console.log("Error", error);
     } finally {
       setLoading(false);

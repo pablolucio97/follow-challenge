@@ -31,17 +31,23 @@ const SignIn: React.FC = () => {
   const handleSignIn = useCallback(async () => {
     try {
       setLoading(true);
-      const authData = await usersRepository.authenticateUser({
+      const { DATA: data } = await usersRepository.authenticateUser({
         email,
         password,
       });
-      if (authData) {
-        authenticateUser(authData);
+      if (data) {
+        authenticateUser(data);
       }
-    } catch (error) {
-      showErrorToast(
-        `Houve um erro ao autenticar usuário. \n Por favor, tente novamente mais tarde.`
-      );
+    } catch (error: any) {
+      if (error && error.response && error.response.status === 409) {
+        showErrorToast(
+          `Credenciais inválidas ou usuário inexistente. \n Por favor, verifique seu e-mail e senha.`
+        );
+      } else {
+        showErrorToast(
+          `Houve um erro ao autenticar usuário. \n Por favor, tente novamente mais tarde.`
+        );
+      }
       console.log("Error", error);
     } finally {
       setLoading(false);

@@ -10,7 +10,12 @@ export class AuthenticateUserController {
       return response.success(authenticatedUser, 200);
     } catch (error: any) {
       const message = error.message || "Unexpected error.";
-      return response.error(message, 400);
+      switch (error.message) {
+        case "User not found or credentials does not matches.":
+          return response.error(message, 409);
+        default:
+          return response.error(message, 400);
+      }
     }
   }
 }

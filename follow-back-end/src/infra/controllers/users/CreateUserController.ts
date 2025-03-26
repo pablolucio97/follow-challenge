@@ -15,7 +15,12 @@ export class CreateUserController {
       return response.success(user, 201);
     } catch (error: any) {
       const message = error.message || "Unexpected error.";
-      return response.error(message, 400);
+      switch (error.message) {
+        case "User already exists. Please, provide another email.":
+          return response.error(message, 409);
+        default:
+          return response.error(message, 400);
+      }
     }
   }
 }
