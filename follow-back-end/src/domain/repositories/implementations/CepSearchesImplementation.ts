@@ -1,4 +1,5 @@
 import axios from "axios";
+import { formatZipCode } from "../../../utils/formats";
 import { ICepSearchDTO, ICreateCepSearchDTO } from "../../dtos/CepSearchDTO";
 import { ICepSearchesRepository } from "../interfaces/CepSearchesRepository";
 import { CepSearch } from "./../../../infra/models/CepSearch";
@@ -12,35 +13,49 @@ export class CepSearchesImplementation implements ICepSearchesRepository {
   async createCepSearch(
     data: ICreateCepSearchDTO
   ): Promise<ICepSearchDTO | null> {
-    const { user_id } = data;
+    const { user_id, cep } = data;
     const user = await this.checkUserExists(user_id);
-    if (user) {
-      const response = await axios.get(
-        `https://viacep.com.br/ws/${data.cep}/json/`
-      );
-      if (response.data.erro) {
-        throw new Error("CEP not found.");
-      } else if (response.data) {
-        const { cep, logradouro, bairro, localidade, uf } = response.data;
-        const cepSearch = await this.CepSearchModel.create({
-          user_id,
-          cep,
-          address: logradouro,
-          district: bairro,
-          city: localidade,
-          uf,
-        });
-        const savedCepSearch = await cepSearch.save();
-        return savedCepSearch.dataValues;
+    const cepSearchAlreadyExists = await this.CepSearchModel.findOne({
+      where: {
+        user_id,
+        cep: formatZipCode(cep),
+      },
+    });
+    if (cepSearchAlreadyExists) {
+      return cepSearchAlreadyExists.dataValues;
+    } else {
+      if (user) {
+        const response = await axios.get(
+          `https://viacep.com.br/ws/${data.cep}/json/`
+        );
+        if (response.data.erro) {
+          throw new Error("CEP not found.");
+        } else if (response.data) {
+          const { cep, logradouro, bairro, localidade, uf } = response.data;
+          const cepSearch = await this.CepSearchModel.create({
+            user_id,
+            cep,
+            address: logradouro,
+            district: bairro,
+            city: localidade,
+            uf,
+          });
+          const savedCepSearch = await cepSearch.save();
+          return savedCepSearch.dataValues;
+        }
       }
     }
+
     return null;
   }
-  async listCepSearchesByUser(userId: string, page: number): Promise<ICepSearchDTO[] | null> {
+  async listCepSearchesByUser(
+    userId: string,
+    page: number
+  ): Promise<ICepSearchDTO[] | null> {
     const user = await this.checkUserExists(userId);
     if (user) {
-      const limit = 10
-      const offset = (page - 1) * limit
+      const limit = 10;
+      const offset = (page - 1) * limit;
       const cepHistory = await this.CepSearchModel.findAll({
         where: { user_id: userId },
         limit,

@@ -147,7 +147,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
         <button
           onClick={onPreviousPage}
           disabled={currentPage <= 1}
-          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none border-1 border-gray-300 p-2 cursor-pointer rounded-sm"
+          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none border-1 border-gray-300 p-2 cursor-pointer rounded-sm disabled:cursor-auto"
         >
           Anterior
         </button>
@@ -161,7 +161,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
         <button
           onClick={onNextPage}
           disabled={tableData.length < itemsPerPage}
-          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none border-1 border-gray-300 p-2 cursor-pointer rounded-sm"
+          className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none border-1 border-gray-300 p-2 cursor-pointer rounded-sm disabled:cursor-auto"
         >
           Próximo
         </button>

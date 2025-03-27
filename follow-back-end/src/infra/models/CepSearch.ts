@@ -36,4 +36,13 @@ export const CepSearch = sequelizeDb.define("cep_search", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+},{
+  indexes:[
+    {
+      fields: ['user_id']
+    },
+    {
+      fields: ['cep']
+    }
+  ]
 });
