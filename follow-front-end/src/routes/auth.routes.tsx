@@ -1,3 +1,4 @@
+import ErrorPage from "@/screens/app/ErrorPage";
 import SignIn from "@/screens/auth/SignIn";
 import SignUp from "@/screens/auth/SingnUp";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -11,6 +12,10 @@ const authRoutes: IRoute[] = [
   {
     path: "/register",
     element: <SignUp />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ];
 

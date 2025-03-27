@@ -1,3 +1,4 @@
+import ErrorPage from "@/screens/app/ErrorPage";
 import NewSearch from "@/screens/app/NewSearch";
 import SearchHistory from "@/screens/app/SearchHistory";
 import { ReactNode } from "react";
@@ -16,6 +17,10 @@ const appRoutes: IRoute[] = [
   {
     path: "/search-history",
     element: <SearchHistory />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ];
 
