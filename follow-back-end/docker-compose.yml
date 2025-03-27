@@ -6,15 +6,14 @@ services:
     image: postgres
     ports:
       - 5432:5432
+    env_file:
+      - .env
     environment:
-       POSTGRES_USER: postgres
-       POSTGRES_PASSWORD: admin
-       POSTGRES_DB: follow-cep-db
        PGDATA: /data/postgres
     volumes:
     - ./data/pg:/data/postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d follow-cep-db"]
+      test: pg_isready -U ${DB_USER} -d ${DB_NAME}
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,4 +31,6 @@ services:
     depends_on:
        postgres:
          condition: service_healthy
+    env_file:
+      - .env
   
