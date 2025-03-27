@@ -47,12 +47,9 @@ const NewSearch: React.FC = () => {
         showErrorToast(
           `Você atingiu o número máximo de pesquisas por minuto. Tente novamente mais tarde.`
         );
-      } else {
-        showErrorToast(
-          `Houve um erro ao fazer pesquisa. \n Por favor, tente novamente mais tarde.`
-        );
+      }else{
+        setHasError(true);
       }
-      setHasError(true);
     } finally {
       setLoading(false);
     }
@@ -88,7 +85,7 @@ const NewSearch: React.FC = () => {
           ) : hasError ? (
             <div className="w-full mt-8">
               <ErrorData
-                content=" Houve um erro ao tentar buscar CEP. Tente novamente mais tarde."
+                content="Cep não encontrado ou inválido."
                 className="mt-12"
               />
               <Button
