@@ -2,7 +2,6 @@ import ErrorData from "@/components/miscellaneous/ErrorData";
 import FooterLink from "@/components/miscellaneous/FooterLink";
 import Header from "@/components/miscellaneous/Header";
 import Loading from "@/components/miscellaneous/Loading";
-import NoData from "@/components/miscellaneous/NoData";
 import Title from "@/components/typography/Title";
 import { CepSearchesRepository } from "@/repositories/CepSearchesRepository";
 import { showErrorToast, showSuccessToast } from "@/utils/toast";
@@ -113,11 +112,6 @@ const SearchHistory: React.FC = () => {
                 className="mt-12"
               />
             </div>
-          ) : searchHistory && searchHistory.length === 0 ? (
-            <NoData
-              content=" Você ainda não realizou nenhuma busca."
-              className="mt-12"
-            />
           ) : (
             <HistoryTable
               history={searchHistory}

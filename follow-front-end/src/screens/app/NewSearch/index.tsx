@@ -8,6 +8,7 @@ import Loading from "@/components/miscellaneous/Loading";
 import Title from "@/components/typography/Title";
 import { CepSearchesRepository } from "@/repositories/CepSearchesRepository";
 import { maskCep, removeCepMask } from "@/utils/formats";
+import { showErrorToast } from "@/utils/toast";
 import { ICepSearchDTO } from "dtos/Search";
 import useAuth from "hooks/useAuth";
 import { useLoading } from "hooks/useLoading";
@@ -38,8 +39,19 @@ const NewSearch: React.FC = () => {
           setSearch(data);
         }
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (
+        (error && error.response && error.response.status === 429) ||
+        error.code === "ERR_NETWORK"
+      ) {
+        showErrorToast(
+          `Você atingiu o número máximo de pesquisas por minuto. Tente novamente mais tarde.`
+        );
+      } else {
+        showErrorToast(
+          `Houve um erro ao fazer pesquisa. \n Por favor, tente novamente mais tarde.`
+        );
+      }
       setHasError(true);
     } finally {
       setLoading(false);
@@ -76,7 +88,7 @@ const NewSearch: React.FC = () => {
           ) : hasError ? (
             <div className="w-full mt-8">
               <ErrorData
-                content=" Cep não encontrado. Tente novamente."
+                content=" Houve um erro ao tentar buscar CEP. Tente novamente mais tarde."
                 className="mt-12"
               />
               <Button

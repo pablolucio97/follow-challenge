@@ -33,11 +33,6 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
   const [tableData, setTableData] = useState<ICepSearchDTO[]>([]);
   const itemsPerPage = 10;
 
-  const pages = Array.from(
-    { length: Math.ceil(sortedHistory.length / itemsPerPage) },
-    (_, idx) => idx + 1
-  );
-
   const currentTableData = useCallback(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -165,7 +160,7 @@ const HistoryTable: React.FC<HistoryTableProps> = ({
         </div>
         <button
           onClick={onNextPage}
-          disabled={currentPage > pages[pages.length - 1]}
+          disabled={tableData.length < itemsPerPage}
           className="lg:w-[96px] text-[11px] lg:text-sm mx-auto normal-case text-gray-700 shadow-none border-1 border-gray-300 p-2 cursor-pointer rounded-sm"
         >
           Próximo
