@@ -1,7 +1,7 @@
-import moment from "moment";
+import moment from "moment-timezone";
 
 export const formatDate = (date: string) => {
-  return moment.utc(date).format("DD/MM/YYYY hh:mm");
+  return moment(date).tz('America/Sao_Paulo').format("DD/MM/YYYY hh:mm");
 };
 
 export const removeCepMask = (cep: string): string => {
