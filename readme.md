@@ -39,4 +39,5 @@ Este repositório contém as aplicações back-end e front-end desenvolvidas par
 1. Clone o repositório caso ainda não tenha sido feito.
 2. Entre na pasta `follow-front-end` e execute o comando `npm install` para instalar as dependências.
 3. Com o servidor back-end rodando, execute o comando `npm run dev` para executar a aplicação.
+4. Opcionalmente execute o comando `npm run test` para executar os testes.
 
