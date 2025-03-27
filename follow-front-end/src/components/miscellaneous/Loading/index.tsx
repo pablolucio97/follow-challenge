@@ -13,7 +13,7 @@ const Loading: React.FC<LoadingProps> = ({ color, text, hideText }) => {
     margin: "0.5 auto",
   };
   return (
-    <div className="w-full flex flex-col items-center justify-center">
+    <div className="w-full flex flex-col items-center justify-center"  data-testid="loading-indicator">
       <ScaleLoader
         color={color || "#33C896"}
         loading
