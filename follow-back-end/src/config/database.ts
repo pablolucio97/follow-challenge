@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
 
 export const sequelizeDb = new Sequelize(
-  process.env.DB_NAME!,
-  process.env.DB_USER!,
-  process.env.DB_PASSWORD!,
+  process.env.POSTGRES_DB!,
+  process.env.POSTGRES_USER!,
+  process.env.POSTGRES_PASSWORD!,
   {
     host: "postgres",
     port: 5432,
